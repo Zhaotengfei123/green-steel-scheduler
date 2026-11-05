@@ -1,0 +1,428 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#252d2c" />
+    <meta name="description" content="绿钢智序：面向炼钢、精炼、连铸的低碳智能排产工作台。" />
+    <title>绿钢智序 · 低碳智能排产工作台</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%231b2323'/%3E%3Cpath d='M9 12h30l-4 7H13z' fill='%23eda047'/%3E%3Cpath d='M14 22h20l-3 13H17z' fill='none' stroke='%23eda047' stroke-width='3'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section class="auth-shell" id="auth-screen" aria-labelledby="auth-title">
+      <div class="auth-story">
+        <div class="auth-brand">
+          <span class="brand-symbol" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <path d="M7 11h34l-4 7H11z" fill="currentColor" />
+              <path d="M13 20h22l-3 15H16z" fill="none" stroke="currentColor" stroke-width="3" />
+              <path d="M19 25h10v5H19z" fill="currentColor" />
+            </svg>
+          </span>
+          <span>
+            <strong>绿钢智序</strong>
+            <small>钢铁低碳智能排产</small>
+          </span>
+        </div>
+
+        <div class="auth-copy">
+          <p class="auth-kicker">一厂 · 二厂 · 三厂 / 炼钢 · 精炼 · 连铸</p>
+          <h1 id="auth-title">把一天的钢，<br /><span>排得更顺、更低碳。</span></h1>
+          <p class="auth-lead">按设备能力编排炉次与工序，在一张日计划里同时看到生产节奏、完工时间和减碳结果。</p>
+        </div>
+
+        <div class="auth-flow" aria-label="炼钢、精炼、连铸流程">
+          <div><span>01</span><strong>炼钢</strong><small>转炉 / 电炉</small></div>
+          <div><span>02</span><strong>精炼</strong><small>成分 / 温度</small></div>
+          <div><span>03</span><strong>连铸</strong><small>浇次 / 铸机</small></div>
+        </div>
+
+        <div class="auth-footnote">
+          <span>第二届全国人工智能应用创新大赛</span>
+          <span>通用赛道 · 制造 · 智能排产</span>
+        </div>
+      </div>
+
+      <div class="auth-panel">
+        <form class="login-card" id="login-form" novalidate>
+          <p class="form-kicker">赛事演示登录</p>
+          <h2>进入排产工作台</h2>
+          <p class="login-note">输入演示账号，查看一厂、二厂、三厂示例日计划。</p>
+
+          <label class="field">
+            <span>账号</span>
+            <input id="account" name="account" type="text" inputmode="numeric" autocomplete="username" placeholder="请输入演示账号" required />
+          </label>
+
+          <label class="field">
+            <span>密码</span>
+            <span class="password-wrap">
+              <input id="password" name="password" type="password" inputmode="numeric" autocomplete="current-password" placeholder="请输入演示密码" required />
+              <button class="icon-button" id="toggle-password" type="button" aria-label="显示密码">显示</button>
+            </span>
+          </label>
+
+          <p class="login-error" id="login-error" role="alert" aria-live="polite"></p>
+          <button class="primary-button login-button" type="submit">进入工作台 <span aria-hidden="true">→</span></button>
+          <div class="login-meta">
+            <span>一厂 / 二厂 / 三厂</span>
+            <span>日排产</span>
+            <span>减碳核算</span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="app-shell" id="app-shell" hidden>
+      <header class="topbar">
+        <a class="brand-lockup" href="#" aria-label="绿钢智序总览" data-slide-target="0">
+          <span class="brand-symbol small" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <path d="M7 11h34l-4 7H11z" fill="currentColor" />
+              <path d="M13 20h22l-3 15H16z" fill="none" stroke="currentColor" stroke-width="3" />
+              <path d="M19 25h10v5H19z" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="brand-text">
+            <strong>绿钢智序</strong>
+            <small>钢铁低碳智能排产</small>
+          </span>
+        </a>
+
+        <nav class="topnav" aria-label="演示页面">
+          <button type="button" data-slide-target="0" class="active">总览</button>
+          <button type="button" data-slide-target="1">计划输入</button>
+          <button type="button" data-slide-target="2">甘特排程</button>
+          <button type="button" data-slide-target="3">炉次明细</button>
+          <button type="button" data-slide-target="4">减碳核算</button>
+          <button type="button" data-slide-target="5">设备能力</button>
+        </nav>
+
+        <div class="topbar-actions">
+          <span class="plant-status"><i></i>三厂协同排产</span>
+          <span class="user-chip">135792468</span>
+          <button class="ghost-button" id="logout-button" type="button">退出</button>
+        </div>
+      </header>
+
+      <main class="deck-main" id="deck-main">
+        <div class="deck-track" id="deck-track">
+          <section class="deck-slide" data-slide-index="0" aria-label="日排产总览">
+            <div class="slide-inner">
+              <header class="slide-header">
+                <div>
+                  <p class="slide-kicker">今日日计划 · <span id="hero-date">2026.11.04</span></p>
+                  <h1>一厂、二厂、三厂日排产总览</h1>
+                  <p class="slide-desc">6 个订单拆分为 15 个炉次，沿炼钢、精炼、连铸三道工序协同排产。</p>
+                </div>
+                <span class="slide-number">01 <span>/ 06</span></span>
+              </header>
+
+              <div class="overview-layout">
+                <section class="flow-panel">
+                  <div class="flow-heading">
+                    <span>生产主流程</span>
+                    <strong>06:00 开始 · 10:21 完工</strong>
+                  </div>
+                  <div class="flow-stages">
+                    <article>
+                      <span class="flow-index">01</span>
+                      <strong>炼钢</strong>
+                      <p>顶底复吹转炉按炉次容量分配。</p>
+                      <small>一厂 2 座 · 二厂 3 座 · 三厂 2 座</small>
+                    </article>
+                    <article>
+                      <span class="flow-index">02</span>
+                      <strong>精炼</strong>
+                      <p>衔接炼钢结束时刻，控制等待与炉机匹配。</p>
+                      <small>一厂 3 台 · 二厂 6 台 · 三厂 2 台</small>
+                    </article>
+                    <article>
+                      <span class="flow-index">03</span>
+                      <strong>连铸</strong>
+                      <p>优先保持同一订单铸机连续，明确浇次时刻。</p>
+                      <small>一厂 3 台 · 二厂 3 台 · 三厂 1 台</small>
+                    </article>
+                  </div>
+                  <div class="overview-note">
+                    <strong>默认方案</strong>
+                    <span>15 个炉次 · 45 道工序 · 转炉废钢比 26%</span>
+                  </div>
+                </section>
+
+                <section class="metrics-board" aria-label="排产核心指标">
+                  <article class="metric-cell">
+                    <span>计划产量</span>
+                    <strong id="metric-tons">—</strong>
+                    <small>吨 · 当日炉次合计</small>
+                  </article>
+                  <article class="metric-cell">
+                    <span>总完工时长</span>
+                    <strong id="metric-makespan">—</strong>
+                    <small id="metric-makespan-note">—</small>
+                  </article>
+                  <article class="metric-cell carbon-cell">
+                    <span>预计减碳量</span>
+                    <strong id="metric-carbon">—</strong>
+                    <small id="metric-carbon-note">—</small>
+                  </article>
+                  <article class="metric-cell">
+                    <span>转炉废钢比</span>
+                    <strong id="metric-eaf">—</strong>
+                    <small>低碳冶炼参数</small>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </section>
+          <section class="deck-slide" data-slide-index="1" aria-label="日计划输入">
+            <div class="slide-inner">
+              <header class="slide-header compact-header">
+                <div>
+                  <p class="slide-kicker">计划输入与自动校验</p>
+                  <h1>输入今天的生产计划</h1>
+                  <p class="slide-desc">修改订单、炉数或废钢比后重新排产，页面会自动更新时序、完工时间和减碳结果。</p>
+                </div>
+                <span class="slide-number">02 <span>/ 06</span></span>
+              </header>
+
+              <div class="workspace-layout">
+                <article class="panel input-panel">
+                  <header class="panel-header">
+                    <div>
+                      <span class="panel-index">01</span>
+                      <h2>订单与排产参数</h2>
+                    </div>
+                    <span class="panel-tag">可直接修改</span>
+                  </header>
+
+                  <div class="input-panel-body">
+                  <div class="form-row two-col">
+                    <label class="field compact">
+                      <span>生产日期</span>
+                      <input id="plan-date" type="date" value="2026-11-04" />
+                    </label>
+                    <label class="field compact">
+                      <span>计划开始</span>
+                      <input id="start-time" type="time" value="06:00" />
+                    </label>
+                  </div>
+
+                  <div class="demand-heading">
+                    <div>
+                      <h3>订单与炉次</h3>
+                      <p>炉数会拆分为独立炉次，并按工序排入设备。</p>
+                    </div>
+                    <div class="table-tools">
+                      <button class="text-button" id="download-template" type="button">下载Excel模板</button>
+                      <button class="text-button" id="import-excel-button" type="button">导入Excel计划</button>
+                      <button class="text-button" id="add-order" type="button">+ 添加订单</button>
+                      <input id="import-excel" type="file" accept=".xlsx,.xls" hidden />
+                    </div>
+                  </div>
+
+                  <div class="table-shell demand-shell">
+                    <table class="demand-table">
+                      <thead>
+                        <tr>
+                          <th>工厂</th><th>订单号</th><th>钢种</th><th>精炼方式</th><th>炉数</th><th>单炉吨数</th><th>产品</th><th></th>
+                        </tr>
+                      </thead>
+                      <tbody id="demand-body"></tbody>
+                    </table>
+                  </div>
+
+                  <label class="range-field">
+                    <span class="range-label"><span>转炉废钢比</span><strong><output id="scrap-output">26</output>%</strong></span>
+                    <input id="scrap-ratio" type="range" min="20" max="35" step="1" value="26" />
+                    <span class="range-hint">提高废钢比可降低转炉工序碳强度，结果用于方案演示。</span>
+                  </label>
+
+                  </div>
+
+                  <div class="input-actions">
+                    <button class="primary-button" id="run-schedule" type="button">生成日排产计划 <span aria-hidden="true">→</span></button>
+                    <button class="ghost-button" id="reset-demo" type="button">恢复示例</button>
+                  </div>
+                  <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
+                </article>
+
+                <article class="panel decision-panel">
+                  <header class="panel-header">
+                    <div>
+                      <span class="panel-index">02</span>
+                      <h2>排产校验</h2>
+                    </div>
+                    <span class="panel-tag live"><i></i>规则已加载</span>
+                  </header>
+
+                  <div class="decision-panel-body">
+                  <div class="status-banner">
+                    <div>
+                      <strong id="agent-status">正在读取示例计划</strong>
+                      <p id="agent-status-note">按设备容量、工序顺序与减碳目标生成日计划。</p>
+                    </div>
+                    <span class="status-code">双厂并行</span>
+                  </div>
+
+                  <div class="agent-steps" id="agent-steps" aria-live="polite">
+                    <div class="agent-step"><span>01</span><p>拆解订单炉次</p><em>待执行</em></div>
+                    <div class="agent-step"><span>02</span><p>匹配冶炼与精炼设备</p><em>待执行</em></div>
+                    <div class="agent-step"><span>03</span><p>编排连铸浇次</p><em>待执行</em></div>
+                    <div class="agent-step"><span>04</span><p>核算完工时长与减碳结果</p><em>待执行</em></div>
+                  </div>
+
+                  <div class="decision-summary">
+                    <div><span>排产炉次</span><strong id="summary-heats">—</strong></div>
+                    <div><span>平均工序等待</span><strong id="summary-wait">—</strong></div>
+                    <div><span>瓶颈设备</span><strong id="summary-bottleneck">—</strong></div>
+                    <div><span>计划完工时间</span><strong id="summary-end">—</strong></div>
+                  </div>
+
+                  <div class="insight-box">
+                    <span class="insight-mark">碳</span>
+                    <p id="agent-insight">登录后自动生成一厂、二厂、三厂示例日计划，可直接用于演示。</p>
+                  </div>
+                </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="deck-slide" data-slide-index="2" aria-label="设备甘特排程">
+            <div class="slide-inner">
+              <header class="slide-header inline-header">
+                <div>
+                  <p class="slide-kicker">设备级时序</p>
+                  <h1>三厂设备甘特排程</h1>
+                  <p class="slide-desc">按照工厂切换查看设备级甘特排程，每根色条标注炉次与起止时刻。</p>
+                </div>
+                <div class="header-tools">
+                  <div class="legend" aria-label="工序图例">
+                    <span><i class="legend-steel"></i>炼钢</span>
+                    <span><i class="legend-refine"></i>精炼</span>
+                    <span><i class="legend-cast"></i>连铸</span>
+                  </div>
+                  <button class="ghost-button" id="export-xlsx" type="button">导出Excel日计划</button>
+                </div>
+              </header>
+              <div class="gantt-toolbar">
+                <div class="plant-tabs" id="gantt-plant-tabs" aria-label="工厂切换">
+                  <button type="button" data-gantt-plant="1" class="active">一厂</button>
+                  <button type="button" data-gantt-plant="2">二厂</button>
+                  <button type="button" data-gantt-plant="3">三厂</button>
+                </div>
+                <span>切换工厂查看完整设备序列</span>
+              </div>
+              <div class="gantt-root" id="gantt-root"></div>
+              <p class="gantt-hint">甘特图可左右滑动查看完整时间轴。</p>
+            </div>
+          </section>
+
+          <section class="deck-slide" data-slide-index="3" aria-label="炉次时序明细">
+            <div class="slide-inner">
+              <header class="slide-header inline-header">
+                <div>
+                  <p class="slide-kicker">逐炉查看</p>
+                  <h1>炉次时序明细</h1>
+                  <p class="slide-desc">每个炉次的炼钢、精炼、连铸设备与开始、结束时间。</p>
+                </div>
+                <span class="slide-number">04 <span>/ 06</span></span>
+              </header>
+              <div class="table-shell schedule-shell schedule-slide-shell">
+                <table class="schedule-table">
+                  <thead>
+                    <tr>
+                      <th>炉次</th><th>工厂</th><th>路线</th><th>钢种</th>
+                      <th>炼钢设备 / 时间</th><th>精炼设备 / 时间</th><th>连铸设备 / 时间</th><th>等待</th>
+                    </tr>
+                  </thead>
+                  <tbody id="schedule-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+          <section class="deck-slide" data-slide-index="4" aria-label="减碳核算">
+            <div class="slide-inner">
+              <header class="slide-header compact-header">
+                <div>
+                  <p class="slide-kicker">三厂转炉基准对比</p>
+                  <h1>同样产量，少排多少碳？</h1>
+                  <p class="slide-desc">按三厂转炉产量结构与废钢比，对比常规基准的日碳排放。</p>
+                </div>
+                <span class="slide-number">05 <span>/ 06</span></span>
+              </header>
+
+              <div class="carbon-layout">
+                <article class="carbon-hero">
+                  <span class="carbon-label">今日预计减碳</span>
+                  <div class="carbon-number"><strong id="carbon-big">—</strong><span>吨二氧化碳当量</span></div>
+                  <p id="carbon-caption">相对常规转炉基准的场景减排量。</p>
+                  <div class="carbon-hero-rule"></div>
+                  <div class="carbon-hero-summary">
+                    <div><span>排放基准</span><strong>常规转炉路径</strong></div>
+                    <div><span>方案路径</span><strong>转炉 + 高废钢比</strong></div>
+                  </div>
+                </article>
+
+                <article class="carbon-detail">
+                  <div class="carbon-comparison">
+                    <div class="carbon-bar-row">
+                      <div class="bar-label"><span>常规转炉基准</span><strong id="baseline-carbon">—</strong></div>
+                      <div class="carbon-track"><i id="baseline-bar"></i></div>
+                    </div>
+                    <div class="carbon-bar-row">
+                      <div class="bar-label"><span>绿钢智序方案</span><strong id="scheduled-carbon">—</strong></div>
+                      <div class="carbon-track optimized"><i id="scheduled-bar"></i></div>
+                    </div>
+                  </div>
+                  <div class="carbon-kpis">
+                    <div><span>减排比例</span><strong id="carbon-percent">—</strong></div>
+                    <div><span>吨钢碳排</span><strong id="carbon-per-ton">—</strong></div>
+                    <div><span>废钢比</span><strong id="carbon-scrap">—</strong></div>
+                    <div><span>计划炉次</span><strong id="carbon-heat-count">—</strong></div>
+                  </div>
+                  <div class="assumption-note">
+                    <strong>核算说明</strong>
+                    <p>基准采用 2.10 吨二氧化碳/吨钢的常规转炉路径；低碳方案按废钢比折算转炉碳强度。结果用于比赛演示与方案比较。</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="deck-slide" data-slide-index="5" aria-label="设备能力">
+            <div class="slide-inner">
+              <header class="slide-header inline-header">
+                <div>
+                  <p class="slide-kicker">一厂 / 二厂 / 三厂设备池</p>
+                  <h1>设备配套与当日负荷</h1>
+                  <p class="slide-desc">按设备查看容量、任务数和当日负荷率，快速定位瓶颈环节。</p>
+                </div>
+                <span class="slide-number">06 <span>/ 06</span></span>
+              </header>
+              <div class="equipment-grid" id="equipment-grid"></div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="deck-controls">
+        <button class="deck-arrow" id="prev-slide" type="button" aria-label="上一页">← 上一页</button>
+        <div class="deck-position">
+          <strong id="slide-counter">01 / 06</strong>
+          <span id="slide-label">总览</span>
+        </div>
+        <button class="deck-arrow next" id="next-slide" type="button" aria-label="下一页">下一页 →</button>
+        <p class="deck-tip">左右方向键也可翻页</p>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
+
+
+
